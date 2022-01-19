@@ -21,6 +21,11 @@ pipeline {
 				}
 			}
 		}
+		stage('Jar Code') {
+        	steps {
+        		sh './mvnw clean package -e'
+        	}
+        }
 		stage('uploadNexus') {
 			steps {
 				nexusArtifactUploader artifacts: [
@@ -38,11 +43,6 @@ pipeline {
 				protocol: 'http',
 				repository: 'http://localhost:8081/repository/test-repo/',
 				version: '0.0.1'
-			}
-		}
-		stage('Jar Code') {
-			steps {
-				sh './mvnw clean package -e'
 			}
 		}
 		stage('Run Jar') {
